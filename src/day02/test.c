@@ -16,6 +16,15 @@ void chompTest(){
     assert(strcmp("Test", testStr) == 0);
 }
 
+void printAsciiTest(){
+    //setup
+    char testStr[] = "Test\n";
+
+    //exec
+    printAscii(testStr);
+}
+
 int main(){
-    chompTest();
+    //chompTest();
+    printAsciiTest();
 }
