@@ -9,7 +9,7 @@
 #define GREEN_MAX 13
 #define BLUE_MAX 14
 
-int isValidGame(){
+int powerOfSet(){
     char *sets = strtok(NULL, ":");
     printf("sets is %s\n", sets);
 
@@ -46,24 +46,24 @@ int isValidGame(){
 }
 
 int partOne(FILE *fptr) {
-  int result = 0;
-  char line[LINE_SIZE];
-  int gameCount = 1;
+    int result = 0;
+    char line[LINE_SIZE];
+    int gameCount = 1;
 
-  while (fgets(line, LINE_SIZE, fptr)) {
-      //remove line feed char
-      chomp(line);
+    while (fgets(line, LINE_SIZE, fptr)) {
+        //remove line feed char
+        chomp(line);
 
-      //remove game prefix
-      strtok(line, ":");
+        //remove game prefix
+        strtok(line, ":");
 
-      //check if game is valid
-      int isValid = isValidGame();
+        //check if game is valid
+        int isValid = powerOfSet();
 
-      result += gameCount * isValid;
+        result += gameCount * isValid;
 
-      gameCount++;
-  }
+        gameCount++;
+    }
 
-  return result;
+    return result;
 }

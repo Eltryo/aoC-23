@@ -31,14 +31,13 @@ int main(int argc, char **argv) {
       fprintf(stderr, "Error building absolute path\n");
       exit(EXIT_FAILURE);
   }
-  //int succ = snprintf(buff, sizeof(buff), "../input/%s/example_input_2", day);
-  //int succ = snprintf(buff, sizeof(buff), "../input/%s/input_1", day);
-  //int succ = snprintf(buff, sizeof(buff), "../input/%s/input_2", day);
 
   fptr = fopen(absolutePath, "r");
   if (fptr != NULL) {
     printf("The result of part one is %d\n", partOne(fptr));
     //printf("The result of part two is %d\n", partTwo(fptr));
+
+    fclose(fptr);
   } else {
     printf("Not able to open the file: %s\n", relativePath);
   }
