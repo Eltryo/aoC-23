@@ -10,20 +10,18 @@
 
 int main(int argc, char **argv) {
   FILE *fptr;
+  char relativePath[PATH_MAX];
 
   char *day = argv[1];
   char *execPath = argv[0];
 
-  char relativePath[PATH_MAX];
-  int trunc = snprintf(relativePath, sizeof(relativePath), "../input/%s/example_input_1", day);
-  //int trunc = snprintf(relativePath, sizeof(relativePath), "../input/%s/example_input_2", day);
-  //int trunc = snprintf(relativePath, sizeof(relativePath), "../input/%s/input_1", day);
-  //int trunc = snprintf(relativePath, sizeof(relativePath), "../input/%s/input_2", day);
+  int trunc;
+  //trunc = snprintf(relativePath, sizeof(relativePath), "../input/%s/example_input_1", day);
+  //trunc = snprintf(relativePath, sizeof(relativePath), "../input/%s/example_input_2", day);
+  trunc = snprintf(relativePath, sizeof(relativePath), "../input/%s/input_1", day);
+  //trunc = snprintf(relativePath, sizeof(relativePath), "../input/%s/input_2", day);
   if(trunc < 0){
       fprintf(stderr, "Error when building relative path\n");
-      exit(EXIT_FAILURE);
-  } else if (trunc >= sizeof(relativePath)){
-      fprintf(stderr, "File content exceeds buffer length");
       exit(EXIT_FAILURE);
   }
 
@@ -31,9 +29,6 @@ int main(int argc, char **argv) {
   trunc = snprintf(absolutePath, sizeof(absolutePath), "%s/%s", dirname(execPath), relativePath);
   if(trunc < 0){
       fprintf(stderr, "Error building absolute path\n");
-      exit(EXIT_FAILURE);
-  } else if (trunc >= sizeof(relativePath)){
-      fprintf(stderr, "File content exceeds buffer length");
       exit(EXIT_FAILURE);
   }
 

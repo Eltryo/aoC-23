@@ -4,8 +4,6 @@
 #include <stdlib.h>
 #include <string.h>
 
-#include "../../include/file.h"
-
 size_t lineLength;
 size_t bufferLength;
 
@@ -98,9 +96,38 @@ char *substring(char *str, char *start, char* end) {
     return substr;
 }
 
+char *readFile(FILE *fptr){
+    if(fseek(fptr, 0L, SEEK_END) == 0){
+        int buffSize = ftell(fptr);
+        if(buffSize == -1) {
+            fprintf(stderr, "Error determining size of file");
+            exit(EXIT_FAILURE);
+        }
+
+        char *buffer = malloc(sizeof(char) * (buffSize + 1));
+
+        rewind(fptr);
+
+        bufferLength = fread(buffer, sizeof(char), buffSize, fptr);
+        if(ferror(fptr) != 0) {
+            fprintf(stderr, "Error reading file");
+            free(buffer);
+            exit(EXIT_FAILURE);
+        } else {
+            buffer[bufferLength++] = '\0';
+        }
+
+        return buffer;
+    } else {
+        fprintf(stderr, "Error seeking end of file");
+        exit(EXIT_FAILURE);
+    }
+}
+
 int partOne(FILE *fptr) {
     int result = 0;
-    char *buffer = readFile(fptr, &bufferLength);
+
+    char *buffer = readFile(fptr);
 
     lineLength = lengthOfLine(buffer);
     printf("length of line is %lu\n", lineLength);

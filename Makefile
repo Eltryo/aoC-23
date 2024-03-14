@@ -1,10 +1,9 @@
+#DIRS :=
 DAY :=
-INPUT :=
 
 SRC_DIR := src
 DAY_SRC_DIR := $(SRC_DIR)/$(DAY)
-MAIN_SOURCES := $(SRC_DIR)/main.c $(DAY_SRC_DIR)/partOne.c $(DAY_SRC_DIR)/partTwo.c
-TEST_SOURCES := $(DAY_SRC_DIR)/test.c $(DAY_SRC_DIR)/partOne.c $(DAY_SRC_DIR)/partTwo.c
+MAIN_SOURCES := src/main.c $(DAY_SRC_DIR)/partOne.c $(DAY_SRC_DIR)/partTwo.c
 
 LIB_DIR := lib
 LIB_SOURCES := $(wildcard $(LIB_DIR)/*.c)
@@ -24,7 +23,7 @@ main: $(MAIN_SOURCES) $(BIN_DIR)/libutils.so
 
 test: $(DAY_SRC_DIR)/test.c $(BIN_DIR)/libutils.so
 	export LD_LIBRARY_PATH=bin:$${LD_LIBRARY_PATH}; \
-    gcc $(CFLAGS) $(LDFLAGS) -o $(BIN_DIR)/test $(TEST_SOURCES); \
+    gcc $(CFLAGS) $(LDFLAGS) -o $(BIN_DIR)/test $(DAY_SRC_DIR)/test.c; \
     $(BIN_DIR)/test;
 
 $(BIN_DIR)/libutils.so: $(LIB_OBJECTS)
