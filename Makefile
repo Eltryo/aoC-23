@@ -3,8 +3,8 @@ INPUT :=
 
 SRC_DIR := src
 DAY_SRC_DIR := $(SRC_DIR)/$(DAY)
-MAIN_SOURCES := $(SRC_DIR)/main.c $(DAY_SRC_DIR)/partOne.c $(DAY_SRC_DIR)/partTwo.c
-TEST_SOURCES := $(DAY_SRC_DIR)/test.c $(DAY_SRC_DIR)/partOne.c $(DAY_SRC_DIR)/partTwo.c
+MAIN_SOURCES := $(SRC_DIR)/main.c $(DAY_SRC_DIR)/partOne.c
+TEST_SOURCES := $(DAY_SRC_DIR)/test.c $(DAY_SRC_DIR)/partOne.c
 
 LIB_DIR := lib
 LIB_SOURCES := $(wildcard $(LIB_DIR)/*.c)

@@ -7,14 +7,14 @@
 #include "../../include/file.h"
 
 size_t lineLength;
-size_t bufferLength;
+size_t buffLen;
 
-size_t lengthOfLine(char *line){
-    if(line == NULL){
+unsigned lengthOfLine(char *line){
+    if(line == NULL || strlen(line) == 0){
         return -1;
     }
 
-    size_t i = 0;
+    unsigned i = 0;
     while(line[i] != '\n'){
         i++;
     }
@@ -22,15 +22,13 @@ size_t lengthOfLine(char *line){
     return ++i;
 }
 
-bool searchDigit(char **curr){
-    printf("The char value is %c\n", **curr);
+bool moveToDigit(char **curr){
     while(**curr < '0' || **curr > '9'){
         if(**curr == '\0'){
             return false;
         }
 
         (*curr)++;
-        printf("The char value is %c\n", **curr);
     }
 
     return true;
@@ -40,53 +38,47 @@ bool isNumeric(char c){
     return c >= '0' && c <= '9';
 }
 
-bool lookAround(int pos, char *buffer){
-    int surroundingPositions[] = {
-        pos - lineLength - 1,
-        pos - lineLength,
-        pos - lineLength + 1,
-        pos - 1,
-        pos + 1,
-        pos + lineLength - 1,
-        pos + lineLength,
-        pos + lineLength + 1
-    };
-
-    for(int i = 0; i < 8; i++){
-        int surrPos = surroundingPositions[i];
-        printf("surrounding pos is %d\n", surrPos);
-        if(surrPos >= 0 && surrPos <= bufferLength){
-            char surrChar = buffer[surrPos];
-            printf("surrounding char is %c\n", surrChar);
-            bool isSymbolic = !(isNumeric(surrChar) || surrChar == '.' || surrChar == '\n');
-            if(isSymbolic) return true;
-        }
-    }
-
-    return false;
-}
-
-//  if symbol was found move to next non numeric char and return true
-//  if not found go to next digit and repeat the look around
-//  if non numeric char is reached then return false
-bool isAdjacent(char **curr, char* buffer){
+int findSymbol(char **curr, char *buff, char symbol){
     while (isNumeric(**curr)){
-        int pos = *curr - buffer;
-        printf("position for look around is %d\n", pos);
-        bool found = lookAround(pos, buffer);
-        if(found){
-            printf("symbol found");
-            while(isNumeric(**curr)){
-                (*curr)++;
-            }
+        int pos = *curr - buff;
+        int surroundings[] = {
+            pos - lineLength - 1,
+            pos - lineLength,
+            pos - lineLength + 1,
+            pos - 1,
+            pos + 1,
+            pos + lineLength - 1,
+            pos + lineLength,
+            pos + lineLength + 1
+        };
 
-            return true;
+        //iterate over all surrounding chars and check if they match with a symbol or a specific char
+        for(int i = 0; i < 8; i++){
+            int pos = surroundings[i];
+            if(pos >= 0 && pos < buffLen){
+                char surrChar = buff[pos];
+                bool isSymbol;
+                if(symbol == 0){
+                    isSymbol = !(isNumeric(surrChar) || surrChar == '.' || surrChar == '\n');
+                } else {
+                    isSymbol = surrChar == symbol;
+                }
+
+                if(isSymbol) {
+                    //adjust the pointer to point to the end of the digit sequence
+                    while(isNumeric(**curr)){
+                        (*curr)++;
+                    }
+
+                    return pos;
+                }
+            }
         }
 
         (*curr)++;
     }
 
-    return false;
+    return -1;
 }
 
 char *substring(char *str, char *start, char* end) {
@@ -100,40 +92,78 @@ char *substring(char *str, char *start, char* end) {
 
 int partOne(FILE *fptr) {
     int result = 0;
-    char *buffer = readFile(fptr, &bufferLength);
+    char *buff = readFile(fptr, &buffLen);
 
-    lineLength = lengthOfLine(buffer);
-    printf("length of line is %lu\n", lineLength);
+    lineLength = lengthOfLine(buff);
 
-    char *curr = buffer;
-    char *succ = NULL;
+    char *curr = buff;
+    char *succ;
     while(*curr != '\0'){
-        //search digit
-        if(!searchDigit(&curr)) {
-            free(buffer);
+        //move the curr pointer to the next digit
+        if(!moveToDigit(&curr)) {
+            free(buff);
             return result;
         }
         succ = curr;
 
-        printf("look around\n");
-        //look around this digit for symbols
-        bool adjacent = isAdjacent(&curr, buffer);
-        if(adjacent){
-            printf("is adjacent\n");
+        //find a symbol or a specific char surrounding a digit sequence (number)
+        int posSymbol = findSymbol(&curr, buff, 0);
+        if(posSymbol != -1){
             //if symbol was found then extract the substring containing the digits of the number
-            char *substr = substring(buffer, succ, curr);
-            int num = strtol(substr, NULL, 10);
-            if(errno == ERANGE){
+            char *substr = substring(buff, succ, curr);
+            long num = strtol(substr, NULL, 10);
+            if(errno != 0){
                 free(substr);
-                free(buffer);
+                free(buff);
 
-                fprintf(stderr, "Error converting substring to int");
+                perror(__func__);
                 exit(EXIT_FAILURE);
             }
 
             //add the number to the result accumulator
             result += num;
-            printf("The result now is %d\n", result);
+
+            free(substr);
+        }
+    }
+
+    free(buff);
+    return result;
+}
+
+int partTwo(FILE *fptr) {
+    int result = 0;
+    char *buffer = readFile(fptr, &buffLen);
+
+    lineLength = lengthOfLine(buffer);
+
+    char *curr = buffer;
+    char *succ = NULL;
+    while(*curr != '\0'){
+        //move the curr pointer to the next digit
+        if(!moveToDigit(&curr)) {
+            free(buffer);
+            return result;
+        }
+        succ = curr;
+
+        //find a symbol or a specific char surrounding a digit sequence (number)
+        int posOfSymbol = findSymbol(&curr, buffer, '*');
+        if(posOfSymbol != -1){
+            //if symbol was found then extract the substring containing the digits of the number
+            char *substr = substring(buffer, succ, curr);
+            int num = strtol(substr, NULL, 10);
+            if(errno != 0){
+                free(substr);
+                free(buffer);
+
+                perror(__func__);
+                exit(EXIT_FAILURE);
+            }
+
+            //add the number to the result accumulator
+            result += num;
+
             free(substr);
         }
     }

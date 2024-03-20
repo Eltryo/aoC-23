@@ -15,9 +15,9 @@ int main(int argc, char **argv) {
   char *execPath = argv[0];
 
   char relativePath[PATH_MAX];
-  int trunc = snprintf(relativePath, sizeof(relativePath), "../input/%s/example_input_1", day);
+  //int trunc = snprintf(relativePath, sizeof(relativePath), "../input/%s/example_input_1", day);
   //int trunc = snprintf(relativePath, sizeof(relativePath), "../input/%s/example_input_2", day);
-  //int trunc = snprintf(relativePath, sizeof(relativePath), "../input/%s/input_1", day);
+  int trunc = snprintf(relativePath, sizeof(relativePath), "../input/%s/input_1", day);
   //int trunc = snprintf(relativePath, sizeof(relativePath), "../input/%s/input_2", day);
   if(trunc < 0){
       fprintf(stderr, "Error when building relative path\n");
