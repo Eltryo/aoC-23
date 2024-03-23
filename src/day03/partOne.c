@@ -161,6 +161,11 @@ int partTwo(FILE *fptr) {
                 exit(EXIT_FAILURE);
             }
 
+            //store the number and the corresponding position of the asterisk
+            //which map entry has exactly two buckets entries
+            //multiply these bucket entries to get the gear ratio
+            //add up all gear ratios
+
             //add the number to the result accumulator
             result += num;
 
