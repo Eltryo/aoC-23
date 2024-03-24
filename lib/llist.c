@@ -1,5 +1,8 @@
 #include "../include/llist.h"
+
+#include <stdio.h>
 #include <stdlib.h>
+#include <string.h>
 
 struct Node {
     int val;
@@ -12,5 +15,11 @@ struct Llist {
 
 Llist *initLlist(){
     Llist *list = malloc(sizeof(Llist));
+    memset(list, 0, sizeof(*list));
+    if(list == NULL){
+        perror(__func__);
+        exit(EXIT_FAILURE);
+    }
+
     return list;
 }

@@ -15,4 +15,17 @@ typedef struct Node Node;
 struct Llist;
 typedef struct Llist Llist;
 
+#ifdef TEST
+Llist *initLlist();
+
+struct Node {
+    int val;
+    Node *next;
+};
+
+struct Llist {
+    Node *head;
+};
+#endif
+
 #endif

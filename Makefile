@@ -3,6 +3,7 @@ INPUT :=
 
 SRC_DIR := src
 DAY_SRC_DIR := $(SRC_DIR)/$(DAY)
+
 MAIN_SOURCES := $(SRC_DIR)/main.c $(DAY_SRC_DIR)/partOne.c
 
 #TODO: implement possibility to test library functions
