@@ -8,7 +8,6 @@
 
 #include "../include/llist.h"
 
-//Is there a possibility to catch failed assertions
 void testInitList(){
     Llist *list = initLlist();
 
@@ -17,9 +16,39 @@ void testInitList(){
     assert(list->head == NULL);
 
     printf("%s " PASSED_COLOR "passed\n" RESET, __func__);
-    free(list);
+    freeList(list);
 }
+
+void testPushOne(){
+    Llist *list = initLlist();
+
+    push(&list->head, 1);
+
+    assert(list->head->val == 1);
+    assert(list->head->next == NULL);
+
+    printf("%s " PASSED_COLOR "passed\n" RESET, __func__);
+    freeList(list);
+}
+
+void testPushTwo(){
+    Llist *list = initLlist();
+
+    push(&list->head, 1);
+    push(&list->head, 2);
+
+    assert(list->head->val == 2);
+    assert(list->head->next->val == 1);
+    assert(list->head->next->next == NULL);
+
+    printf("%s " PASSED_COLOR "passed\n" RESET, __func__);
+    freeList(list);
+}
+
+//how to programmaticly test that there are no memory leaks
 
 int main(){
     testInitList();
+    testPushOne();
+    testPushTwo();
 }

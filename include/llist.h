@@ -15,9 +15,11 @@ typedef struct Node Node;
 struct Llist;
 typedef struct Llist Llist;
 
-#ifdef TEST
 Llist *initLlist();
+void push(Node **head, int val);
+void freeList(Llist *list);
 
+#ifdef TEST
 struct Node {
     int val;
     Node *next;
