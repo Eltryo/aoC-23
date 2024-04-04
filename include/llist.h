@@ -1,6 +1,8 @@
 #ifndef LLIST_H
 #define LLIST_H
 
+#include <stdbool.h>
+
 //data:
 //  node with value and next node
 //
@@ -16,10 +18,12 @@ struct Llist;
 typedef struct Llist Llist;
 
 Llist *initLlist();
-void push(Node **head, int val);
+void push(Llist *head, int val);
 void freeList(Llist *list);
+bool pop(Llist *list, int *out);
 
 #ifdef TEST
+
 struct Node {
     int val;
     Node *next;
@@ -28,6 +32,7 @@ struct Node {
 struct Llist {
     Node *head;
 };
+
 #endif
 
 #endif

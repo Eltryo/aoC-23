@@ -1,5 +1,6 @@
 #include "../include/llist.h"
 
+#include <stdbool.h>
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
@@ -24,13 +25,35 @@ Llist *initLlist() {
     return list;
 }
 
-void push(Node **head, int val){
+void push(Llist *list, int val){
     Node *node;
     node = malloc(sizeof(Node));
 
     node->val = val;
-    node->next = *head;
-    *head = node;
+    node->next = list->head;
+    list->head = node;
+}
+
+bool pop(Llist *list, int *out){
+    if(list == NULL){
+        //todo: improve error messages
+        fprintf(stderr, "List is NULL\n");
+        return false;
+    }
+
+    if(list->head == NULL){
+        //todo: improve error messages
+        fprintf(stderr, "Cannot pop from empty list\n");
+        return false;
+    }
+
+    Node *tmp = list->head->next;
+    *out = list->head->val;
+    free(list->head);
+
+    list->head = tmp;
+
+    return true;
 }
 
 void freeNodes(Node *head){
