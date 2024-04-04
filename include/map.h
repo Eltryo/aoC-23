@@ -1,0 +1,30 @@
+#ifndef MAP_H
+#define MAP_H
+
+#include "../include/llist.h"
+
+struct Map;
+typedef struct Map Map;
+
+struct MapNode;
+typedef struct MapNode MapNode;
+
+Map *mapInit();
+void freeMap(Map *map);
+
+#ifdef TEST
+
+struct Map{
+    MapNode *head;
+};
+
+struct MapNode{
+    int key;
+    unsigned nbuckets;
+    Llist *value;
+    MapNode *next;
+};
+
+#endif
+
+#endif

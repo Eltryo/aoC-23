@@ -2,26 +2,43 @@
 #include <stdlib.h>
 #include <string.h>
 
+#include "../include/llist.h"
+#include "../include/map.h"
+
 int size = 0;
 
-typedef struct{
-    int value;
-    struct Bucket *next;
-} Bucket;
+struct Map{
+    MapNode *head;
+};
 
-typedef struct MapNode MapNode;
 struct MapNode{
     int key;
     unsigned nbuckets;
-    Bucket *bucket;
+    Llist *value;
     MapNode *next;
 };
 
-void mapInit(MapNode *mapNode){
-    memset(mapNode, 0, sizeof(*(mapNode)));
+Map *mapInit(){
+    Map *map = malloc(sizeof(Map));
+    memset(map, 0, sizeof(*(map)));
+    if(map == NULL){
+        perror(__func__);
+        exit(EXIT_FAILURE);
+    }
+
+    return map;
 }
 
-int main(){
-    MapNode mapNode;
-    mapInit(&mapNode);
+void freeMapNodes(MapNode *head){
+    if(!head) return;
+    if(head->next){
+        freeMapNodes(head->next);
+    }
+
+    free(head);
+}
+
+void freeMap(Map *map){
+    freeMapNodes(map->head);
+    free(map);
 }
