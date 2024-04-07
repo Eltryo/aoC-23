@@ -25,6 +25,27 @@ Llist *initLlist() {
     return list;
 }
 
+void printList(Llist *list){
+    if(!list){
+        fprintf(stderr, "list must not be NULL");
+        return;
+    }
+
+    printf("-> ");
+    if(!list->head){
+        printf("\n");
+        return;
+    }
+
+    Node *curr = list->head;
+    while(curr){
+        printf("%d -> ", curr->val);
+        curr = curr->next;
+    }
+
+    printf("\n");
+}
+
 void push(Llist *list, int val){
     Node *node;
     node = malloc(sizeof(Node));

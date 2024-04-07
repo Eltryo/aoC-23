@@ -78,6 +78,17 @@ void testPopEmptyList(){
 
 }
 
+void testPrintList(){
+    Llist *list = initLlist();
+
+    push(list, 1);
+    push(list, 2);
+
+    printList(list);
+
+    freeList(list);
+}
+
 //how to programmaticly test that there are no memory leaks
 
 int main(){
@@ -86,4 +97,5 @@ int main(){
     testPushTwo();
     testPopOne();
     testPopEmptyList();
+    testPrintList();
 }
