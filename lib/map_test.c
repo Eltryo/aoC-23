@@ -20,6 +20,26 @@ void testInitList(){
     freeMap(map);
 }
 
+void testGetAdd(){
+    Map *map = mapInit();
+    printf("map is initialized");
+
+    add(map, 0, 10);
+    add(map, 0, 20);
+    add(map, 1, 11);
+
+    Llist *list0 = get(map, 0);
+    Llist *list1 = get(map, 1);
+
+    assert(20 == list0->head->val);
+    assert(10 == list0->head->next->val);
+    assert(11 == list1->head->val);
+
+    freeMap(map);
+}
+
+
 int main(){
     testInitList();
+    testGetAdd();
 }

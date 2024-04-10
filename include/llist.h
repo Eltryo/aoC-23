@@ -11,27 +11,27 @@
 //  pop a node
 //  print all values of the list
 
-struct Node;
-typedef struct Node Node;
+struct ListNode;
+typedef struct ListNode ListNode;
 
 struct Llist;
 typedef struct Llist Llist;
 
 Llist *initLlist();
-void push(Llist *head, int val);
+bool push(Llist *head, int val);
 void freeList(Llist *list);
 bool pop(Llist *list, int *out);
 void printList(Llist *list);
 
 #ifdef TEST
 
-struct Node {
+struct ListNode {
     int val;
-    Node *next;
+    ListNode *next;
 };
 
 struct Llist {
-    Node *head;
+    ListNode *head;
 };
 
 #endif

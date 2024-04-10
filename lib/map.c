@@ -14,7 +14,7 @@ struct Map{
 struct MapNode{
     int key;
     unsigned nbuckets;
-    Llist *value;
+    Llist *list;
     MapNode *next;
 };
 
@@ -31,8 +31,25 @@ Map *mapInit(){
 
 //todo: complete and test method
 void add(Map *map, int key, int value){
+    if(!map) return;
+
+    MapNode *curr = map->head;
     for (int i = 0; i < size; i++) {
+        if (curr->key == key) {
+            push(curr->list, value);
+        }
     }
+
+    MapNode *node = malloc(sizeof(MapNode));
+    node->key = key;
+
+    Llist *list = initLlist();
+    push(list, value);
+    node->list = list;
+
+    node->next = map->head;
+    map->head = node;
+
 }
 
 //todo: test method
@@ -50,7 +67,7 @@ Llist *get(Map *map, int key){
     MapNode *curr = map->head;
     for(int i = 0; i < size; i++){
         if (curr->key == key) {
-            return curr->value;
+            return curr->list;
         }
     }
 
@@ -63,6 +80,7 @@ void freeMapNodes(MapNode *head){
         freeMapNodes(head->next);
     }
 
+    freeList(head->list);
     free(head);
 }
 

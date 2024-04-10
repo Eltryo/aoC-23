@@ -10,6 +10,8 @@ struct MapNode;
 typedef struct MapNode MapNode;
 
 Map *mapInit();
+void add(Map *map, int key, int value);
+Llist *get(Map *map, int key);
 void freeMap(Map *map);
 
 #ifdef TEST

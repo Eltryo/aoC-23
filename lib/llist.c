@@ -5,13 +5,13 @@
 #include <stdlib.h>
 #include <string.h>
 
-struct Node {
+struct ListNode {
     int val;
-    Node *next;
+    ListNode *next;
 };
 
 struct Llist {
-    Node *head;
+    ListNode *head;
 };
 
 Llist *initLlist() {
@@ -37,7 +37,7 @@ void printList(Llist *list){
         return;
     }
 
-    Node *curr = list->head;
+    ListNode *curr = list->head;
     while(curr){
         printf("%d -> ", curr->val);
         curr = curr->next;
@@ -46,13 +46,17 @@ void printList(Llist *list){
     printf("\n");
 }
 
-void push(Llist *list, int val){
-    Node *node;
-    node = malloc(sizeof(Node));
+bool push(Llist *list, int val){
+    if(!list) return false;
+
+    ListNode *node;
+    node = malloc(sizeof(ListNode));
 
     node->val = val;
     node->next = list->head;
     list->head = node;
+
+    return true;
 }
 
 bool pop(Llist *list, int *out){
@@ -68,7 +72,7 @@ bool pop(Llist *list, int *out){
         return false;
     }
 
-    Node *tmp = list->head->next;
+    ListNode *tmp = list->head->next;
     *out = list->head->val;
     free(list->head);
 
@@ -77,7 +81,7 @@ bool pop(Llist *list, int *out){
     return true;
 }
 
-void freeNodes(Node *head){
+void freeNodes(ListNode *head){
     if(!head) return;
     if(head->next) {
         freeNodes(head->next);
