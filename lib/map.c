@@ -36,20 +36,27 @@ void add(Map *map, int key, int value){
     MapNode *curr = map->head;
     for (int i = 0; i < size; i++) {
         if (curr->key == key) {
-            push(curr->list, value);
+            if(!push(&(curr->list), value)){
+                fprintf(stderr, "push was not successful\n");
+                exit(EXIT_FAILURE);
+            }
+
+            return;
         }
+
+        curr = curr->next;
     }
 
     MapNode *node = malloc(sizeof(MapNode));
     node->key = key;
 
     Llist *list = initLlist();
-    push(list, value);
+    push(&list, value);
     node->list = list;
 
     node->next = map->head;
     map->head = node;
-
+    size++;
 }
 
 //todo: test method
@@ -69,6 +76,8 @@ Llist *get(Map *map, int key){
         if (curr->key == key) {
             return curr->list;
         }
+
+        curr = curr->next;
     }
 
     return NULL;

@@ -23,7 +23,7 @@ void testInitList(){
 void testPushOne(){
     Llist *list = initLlist();
 
-    push(list, 1);
+    push(&list, 1);
 
     assert(list->head->val == 1);
     assert(list->head->next == NULL);
@@ -35,8 +35,8 @@ void testPushOne(){
 void testPushTwo(){
     Llist *list = initLlist();
 
-    push(list, 1);
-    push(list, 2);
+    push(&list, 1);
+    push(&list, 2);
 
     assert(list->head->val == 2);
     assert(list->head->next->val == 1);
@@ -49,8 +49,8 @@ void testPushTwo(){
 void testPopOne(){
     Llist *list = initLlist();
 
-    push(list, 1);
-    push(list, 2);
+    push(&list, 1);
+    push(&list, 2);
 
     int *popVal = malloc(sizeof(int));
     bool popResult = pop(list, popVal);
@@ -81,8 +81,8 @@ void testPopEmptyList(){
 void testPrintList(){
     Llist *list = initLlist();
 
-    push(list, 1);
-    push(list, 2);
+    push(&list, 1);
+    push(&list, 2);
 
     printList(list);
 

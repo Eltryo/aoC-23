@@ -46,15 +46,16 @@ void printList(Llist *list){
     printf("\n");
 }
 
-bool push(Llist *list, int val){
+bool push(Llist **list, int val){
     if(!list) return false;
 
     ListNode *node;
     node = malloc(sizeof(ListNode));
 
     node->val = val;
-    node->next = list->head;
-    list->head = node;
+    Llist *listPtr = *list;
+    node->next = listPtr->head;
+    listPtr->head = node;
 
     return true;
 }

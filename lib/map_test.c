@@ -4,7 +4,6 @@
 
 #define TEST
 #define PASSED_COLOR "\x1B[32m"
-//todo: reset does not work, must be fixed
 #define RESET "\x1B[0m"
 
 #include "../include/map.h"
@@ -22,7 +21,6 @@ void testInitList(){
 
 void testGetAdd(){
     Map *map = mapInit();
-    printf("map is initialized");
 
     add(map, 0, 10);
     add(map, 0, 20);
@@ -35,6 +33,7 @@ void testGetAdd(){
     assert(10 == list0->head->next->val);
     assert(11 == list1->head->val);
 
+    printf("%s " PASSED_COLOR "passed" RESET "\n", __func__);
     freeMap(map);
 }
 

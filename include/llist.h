@@ -18,7 +18,7 @@ struct Llist;
 typedef struct Llist Llist;
 
 Llist *initLlist();
-bool push(Llist *head, int val);
+bool push(Llist **list, int val);
 void freeList(Llist *list);
 bool pop(Llist *list, int *out);
 void printList(Llist *list);

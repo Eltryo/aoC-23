@@ -23,7 +23,7 @@ struct Map{
 struct MapNode{
     int key;
     unsigned nbuckets;
-    Llist *value;
+    Llist *list;
     MapNode *next;
 };
 
