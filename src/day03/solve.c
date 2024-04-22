@@ -55,9 +55,9 @@ int findSymbol(char **curr, char *buff, char symbol){
 
         //iterate over all surrounding chars and check if they match with a symbol or a specific char
         for(int i = 0; i < 8; i++){
-            int pos = surroundings[i];
-            if(pos >= 0 && pos < buffLen){
-                char surrChar = buff[pos];
+            int surrPos = surroundings[i];
+            if(surrPos >= 0 && surrPos < buffLen){
+                char surrChar = buff[surrPos];
                 bool isSymbol;
                 if(symbol == 0){
                     isSymbol = !(isNumeric(surrChar) || surrChar == '.' || surrChar == '\n');
@@ -71,7 +71,7 @@ int findSymbol(char **curr, char *buff, char symbol){
                         (*curr)++;
                     }
 
-                    return pos;
+                    return surrPos;
                 }
             }
         }
@@ -82,7 +82,7 @@ int findSymbol(char **curr, char *buff, char symbol){
     return -1;
 }
 
-char *substring(char *str, char *start, char* end) {
+char *substring(char *start, char* end) {
     int substringLen = end - start;
     char *substr = calloc(substringLen + 1, 1);
 
@@ -111,7 +111,7 @@ int partOne(FILE *fptr) {
         int posSymbol = findSymbol(&curr, buff, 0);
         if(posSymbol != -1){
             //if symbol was found then extract the substring containing the digits of the number
-            char *substr = substring(buff, succ, curr);
+            char *substr = substring(succ, curr);
             long num = strtol(substr, NULL, 10);
             if(errno != 0){
                 free(substr);
@@ -140,7 +140,6 @@ int partTwo(FILE *fptr) {
 
     char *curr = buffer;
     char *succ = NULL;
-    int ratio = 0;
     Map *map = mapInit();
     while(*curr != '\0'){
         //move the curr pointer to the next digit
@@ -154,7 +153,7 @@ int partTwo(FILE *fptr) {
         int posOfSymbol = findSymbol(&curr, buffer, '*');
         if(posOfSymbol != -1){
             //if symbol was found then extract the substring containing the digits of the number
-            char *substr = substring(buffer, succ, curr);
+            char *substr = substring(succ, curr);
             int num = strtol(substr, NULL, 10);
             if(errno != 0){
                 free(substr);
@@ -179,11 +178,11 @@ int partTwo(FILE *fptr) {
         //which map entry has exactly two buckets entries
         if(listSize == 2) {
             int ratio = 1;
-            ListNode *curr = list->head;
+            ListNode *head = list->head;
             for (int i = 0; i < 2; i++) {
                 //multiply these bucket entries to get the gear ratio
-                ratio *= curr->val;
-                curr = curr->next;
+                ratio *= head->val;
+                head = head->next;
             }
 
             //add up all gear ratios

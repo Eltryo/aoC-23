@@ -1,6 +1,5 @@
 #include <assert.h>
 #include <stdio.h>
-#include <stdlib.h>
 
 #define TEST
 #define PASSED_COLOR "\x1B[32m"

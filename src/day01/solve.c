@@ -3,7 +3,6 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
-#include <sys/param.h>
 
 #include "../../include/solve.h"
 
@@ -20,6 +19,11 @@ STRING_TO_INT SpelledToInt[9] = {
 };
 
 char *substring(char *str, int start, int end) {
+    if (!str){
+        fprintf(stderr, "string must not be null");
+        return NULL;
+    }
+
     int substringLen = end - start;
     char *substr = calloc(substringLen + 1, 1);
 
@@ -41,6 +45,11 @@ int spelledToInt(char *spelledNum) {
 }
 
 char *reverseString(char *str) {
+    if (!str){
+        fprintf(stderr, "string must not be null");
+        return NULL;
+    }
+
     char *revStr = calloc(strlen(str) + 1, 1);
     for (int i = 0; i < strlen(str); i++) {
         revStr[i] = str[strlen(str) - i - 1];
@@ -76,6 +85,11 @@ bool spelledNumOffset(char *line, regmatch_t *pmatch, char *pattern) {
 }
 
 int numOffset(char *line) {
+    if (!line){
+        fprintf(stderr, "line must not be null");
+        return -1;
+    }
+
     if(strlen(line) == 0) return -1;
     for (int i = 0; i < strlen(line); i++) {
         if (line[i] >= 48 && line[i] <= 57) {

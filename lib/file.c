@@ -8,7 +8,7 @@
 
 char *readFile(FILE *fptr, size_t *bufferLength){
     if(fseek(fptr, 0L, SEEK_END) == 0){
-        int buffSize = ftell(fptr);
+        long buffSize = ftell(fptr);
         if(buffSize == -1) {
             fprintf(stderr, "Error determining size of file");
             exit(EXIT_FAILURE);

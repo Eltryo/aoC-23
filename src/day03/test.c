@@ -1,7 +1,4 @@
 #include <assert.h>
-#include <libgen.h>
-#include <linux/limits.h>
-#include <stdbool.h>
 #include <stdio.h>
 
 #include "../../include/solve.h"

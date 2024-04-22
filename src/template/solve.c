@@ -1,4 +1,3 @@
-//TODO: change template structure
 #include <stdio.h>
 
 #define LINE_SIZE 1024

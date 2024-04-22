@@ -2,7 +2,6 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
-#include <unistd.h>
 #include <libgen.h>
 
 #include "../include/solve.h"
@@ -15,9 +14,6 @@ int main(int argc, char **argv) {
   char *input = argv[2];
 
   char relativePath[PATH_MAX];
-  //int trunc = snprintf(relativePath, sizeof(relativePath), "../input/%s/example_input_1", day);
-  //int trunc = snprintf(relativePath, sizeof(relativePath), "../input/%s/example_input_2", day);
-  //int trunc = snprintf(relativePath, sizeof(relativePath), "../input/%s/input_1", day);
   int written = snprintf(relativePath, sizeof(relativePath), "../input/%s/%s", day, input);
   if(written < 0){
       fprintf(stderr, "Error when building relative path\n");

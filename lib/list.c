@@ -1,9 +1,9 @@
-#include "../include/list.h"
-
 #include <stdbool.h>
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
+
+#include "../include/list.h"
 
 List *listInit() {
     List *list = malloc(sizeof(List));
