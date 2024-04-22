@@ -4,16 +4,15 @@
 
 #define TEST
 #define PASSED_COLOR "\x1B[32m"
-//todo: reset does not work, must be fixed
 #define RESET "\x1B[0m"
 
-#include "../include/llist.h"
+#include "../../include/list.h"
 
-void testInitList(){
-    Llist *list = initLlist();
+void testListInit(){
+    List *list = listInit();
 
     assert(list != NULL);
-    assert(sizeof(Llist) == 8);
+    assert(sizeof(List) == 16);
     assert(list->head == NULL);
 
     printf("%s " PASSED_COLOR "passed" RESET "\n", __func__);
@@ -21,42 +20,45 @@ void testInitList(){
 }
 
 void testPushOne(){
-    Llist *list = initLlist();
+    List *list = listInit();
 
-    push(&list, 1);
+    listPush(&list, 1);
 
     assert(list->head->val == 1);
     assert(list->head->next == NULL);
+    assert(list->size == 1);
 
     printf("%s " PASSED_COLOR "passed" RESET "\n", __func__);
     freeList(list);
 }
 
 void testPushTwo(){
-    Llist *list = initLlist();
+    List *list = listInit();
 
-    push(&list, 1);
-    push(&list, 2);
+    listPush(&list, 1);
+    listPush(&list, 2);
 
     assert(list->head->val == 2);
     assert(list->head->next->val == 1);
     assert(list->head->next->next == NULL);
+    assert(list->size == 2);
 
     printf("%s " PASSED_COLOR "passed" RESET "\n", __func__);
     freeList(list);
 }
 
 void testPopOne(){
-    Llist *list = initLlist();
+    List *list = listInit();
 
-    push(&list, 1);
-    push(&list, 2);
+    listPush(&list, 1);
+    listPush(&list, 2);
 
     int *popVal = malloc(sizeof(int));
-    bool popResult = pop(list, popVal);
+    bool popResult = listPop(list, popVal);
 
     assert(popResult);
     assert(*popVal == 2);
+    assert(list->size == 1);
 
     printf("%s " PASSED_COLOR "passed" RESET "\n", __func__);
     free(popVal);
@@ -64,10 +66,10 @@ void testPopOne(){
 }
 
 void testPopEmptyList(){
-    Llist *list = initLlist();
+    List *list = listInit();
 
     int *popVal = calloc(1, sizeof(int));
-    bool popResult = pop(list, popVal);
+    bool popResult = listPop(list, popVal);
 
     assert(!popResult);
     assert(*popVal == 0);
@@ -75,24 +77,21 @@ void testPopEmptyList(){
     printf("%s " PASSED_COLOR "passed" RESET "\n", __func__);
     free(popVal);
     freeList(list);
-
 }
 
 void testPrintList(){
-    Llist *list = initLlist();
+    List *list = listInit();
 
-    push(&list, 1);
-    push(&list, 2);
+    listPush(&list, 1);
+    listPush(&list, 2);
 
     printList(list);
 
     freeList(list);
 }
 
-//how to programmaticly test that there are no memory leaks
-
 int main(){
-    testInitList();
+    testListInit();
     testPushOne();
     testPushTwo();
     testPopOne();

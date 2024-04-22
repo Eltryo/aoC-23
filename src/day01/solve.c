@@ -5,6 +5,8 @@
 #include <string.h>
 #include <sys/param.h>
 
+#include "../../include/solve.h"
+
 #define LINE_SIZE 1024
 
 typedef struct {
@@ -94,6 +96,31 @@ bool chomp(char *str) {
     } else {
         return false;
     }
+}
+
+int partOne(FILE *fptr) {
+  int result = 0;
+  char line[LINE_SIZE];
+
+  while (fgets(line, LINE_SIZE, fptr)) {
+    for (int i = 0; i < strlen(line) - 1; i++) {
+      if (line[i] >= 48 && line[i] <= 57) {
+        int firstNum = line[i] - '0';
+        result += firstNum * 10;
+        break;
+      }
+    }
+
+    for (int i = strlen(line) - 2; i >= 0; i--) {
+      if (line[i] >= 48 && line[i] <= 57) {
+        int secondNum = line[i] - '0';
+        result += secondNum;
+        break;
+      }
+    }
+  }
+
+  return result;
 }
 
 int partTwo(FILE *fptr) {

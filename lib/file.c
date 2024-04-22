@@ -2,6 +2,7 @@
 #include <linux/limits.h>
 #include <stdio.h>
 #include <stdlib.h>
+#include <string.h>
 
 #include "../include/file.h"
 
@@ -44,11 +45,14 @@ void getInputFile(FILE **fptr, char *execPath, char *inputFilePath){
     }
 
     char absolutePath[PATH_MAX];
-    written = snprintf(absolutePath, sizeof(absolutePath), "%s/%s", dirname(execPath), relativePath);
+    char *execPathCpy = calloc(strlen(execPath) + 1, sizeof(char));
+    strcpy(execPathCpy, execPath);
+    written = snprintf(absolutePath, sizeof(absolutePath), "%s/%s", dirname(execPathCpy), relativePath);
     if(written < 0){
         fprintf(stderr, "Error building absolute path\n");
         exit(EXIT_FAILURE);
     }
+    free(execPathCpy);
 
     *fptr = fopen(absolutePath, "r");
     if(*fptr == NULL){

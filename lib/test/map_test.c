@@ -6,28 +6,28 @@
 #define PASSED_COLOR "\x1B[32m"
 #define RESET "\x1B[0m"
 
-#include "../include/map.h"
+#include "../../include/map.h"
 
-void testInitList(){
+void testMapInit(){
     Map *map = mapInit();
 
     assert(map != NULL);
-    assert(sizeof(Map) == 8);
+    assert(sizeof(Map) == 16);
     assert(map->head == NULL);
 
     printf("%s " PASSED_COLOR "passed" RESET "\n", __func__);
     freeMap(map);
 }
 
-void testGetAdd(){
+void testMapGetAdd(){
     Map *map = mapInit();
 
-    add(map, 0, 10);
-    add(map, 0, 20);
-    add(map, 1, 11);
+    mapAdd(map, 0, 10);
+    mapAdd(map, 0, 20);
+    mapAdd(map, 1, 11);
 
-    Llist *list0 = get(map, 0);
-    Llist *list1 = get(map, 1);
+    List *list0 = mapGet(map, 0);
+    List *list1 = mapGet(map, 1);
 
     assert(20 == list0->head->val);
     assert(10 == list0->head->next->val);
@@ -37,8 +37,7 @@ void testGetAdd(){
     freeMap(map);
 }
 
-
 int main(){
-    testInitList();
-    testGetAdd();
+    testMapInit();
+    testMapGetAdd();
 }

@@ -5,6 +5,7 @@
 #include <string.h>
 
 #include "../../include/file.h"
+#include "../../include/map.h"
 
 size_t lineLength;
 size_t buffLen;
@@ -139,11 +140,13 @@ int partTwo(FILE *fptr) {
 
     char *curr = buffer;
     char *succ = NULL;
+    int ratio = 0;
+    Map *map = mapInit();
     while(*curr != '\0'){
         //move the curr pointer to the next digit
         if(!moveToDigit(&curr)) {
             free(buffer);
-            return result;
+            break;
         }
         succ = curr;
 
@@ -162,17 +165,35 @@ int partTwo(FILE *fptr) {
             }
 
             //store the number and the corresponding position of the asterisk
-            //which map entry has exactly two buckets entries
-            //multiply these bucket entries to get the gear ratio
-            //add up all gear ratios
-
-            //add the number to the result accumulator
-            result += num;
+            mapAdd(map, posOfSymbol, num);
 
             free(substr);
         }
     }
 
-    free(buffer);
+    MapNode *currMapNode = map->head;
+    while(currMapNode) {
+        List *list = currMapNode->list;
+        unsigned listSize = list->size;
+
+        //which map entry has exactly two buckets entries
+        if(listSize == 2) {
+            int ratio = 1;
+            ListNode *curr = list->head;
+            for (int i = 0; i < 2; i++) {
+                //multiply these bucket entries to get the gear ratio
+                ratio *= curr->val;
+                curr = curr->next;
+            }
+
+            //add up all gear ratios
+            result += ratio;
+        }
+
+        currMapNode = currMapNode->next;
+    }
+
+
+    freeMap(map);
     return result;
 }

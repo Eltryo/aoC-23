@@ -1,32 +1,27 @@
 #ifndef MAP_H
 #define MAP_H
 
-#include "../include/llist.h"
-
-struct Map;
-typedef struct Map Map;
+#include "../include/list.h"
 
 struct MapNode;
 typedef struct MapNode MapNode;
-
-Map *mapInit();
-void add(Map *map, int key, int value);
-Llist *get(Map *map, int key);
-void freeMap(Map *map);
-
-#ifdef TEST
-
-struct Map{
-    MapNode *head;
-};
-
 struct MapNode{
     int key;
-    unsigned nbuckets;
-    Llist *list;
+    List *list;
     MapNode *next;
 };
 
-#endif
+struct Map;
+typedef struct Map Map;
+struct Map{
+    MapNode *head;
+    int size;
+};
+
+
+Map *mapInit();
+void mapAdd(Map *map, int key, int value);
+List *mapGet(Map *map, int key);
+void freeMap(Map *map);
 
 #endif

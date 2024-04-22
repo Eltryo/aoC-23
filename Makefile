@@ -4,10 +4,10 @@ INPUT :=
 SRC_DIR := src
 DAY_SRC_DIR := $(SRC_DIR)/$(DAY)
 
-MAIN_SOURCES := $(SRC_DIR)/main.c $(DAY_SRC_DIR)/partOne.c
+MAIN_SOURCES := $(SRC_DIR)/main.c $(DAY_SRC_DIR)/solve.c
 
 #TODO: implement possibility to test library functions
-TEST_SOURCES := $(DAY_SRC_DIR)/test.c $(DAY_SRC_DIR)/partOne.c
+TEST_SOURCES := $(DAY_SRC_DIR)/test.c $(DAY_SRC_DIR)/solve.c
 
 LIB_DIR := lib
 LIB_SOURCES := $(wildcard $(LIB_DIR)/*.c)
@@ -23,7 +23,7 @@ LDFLAGS := -L./$(BIN_DIR) -lutils
 main: $(MAIN_SOURCES) $(BIN_DIR)/libutils.so
 	export LD_LIBRARY_PATH=bin:$${LD_LIBRARY_PATH}; \
     gcc $(CFLAGS) $(LDFLAGS) -o $(BIN_DIR)/main $(MAIN_SOURCES); \
-    $(BIN_DIR)/main $(DAY);
+    $(BIN_DIR)/main $(DAY) $(INPUT);
 
 test: $(TEST_SOURCES) $(BIN_DIR)/libutils.so
 	export LD_LIBRARY_PATH=bin:$${LD_LIBRARY_PATH}; \

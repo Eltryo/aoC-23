@@ -1,21 +1,12 @@
-#include "../include/llist.h"
+#include "../include/list.h"
 
 #include <stdbool.h>
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
 
-struct ListNode {
-    int val;
-    ListNode *next;
-};
-
-struct Llist {
-    ListNode *head;
-};
-
-Llist *initLlist() {
-    Llist *list = malloc(sizeof(Llist));
+List *listInit() {
+    List *list = malloc(sizeof(List));
     memset(list, 0, sizeof(*list));
     if (list == NULL) {
         perror(__func__);
@@ -25,7 +16,7 @@ Llist *initLlist() {
     return list;
 }
 
-void printList(Llist *list){
+void printList(List *list){
     if(!list){
         fprintf(stderr, "list must not be NULL");
         return;
@@ -46,29 +37,29 @@ void printList(Llist *list){
     printf("\n");
 }
 
-bool push(Llist **list, int val){
+bool listPush(List **list, int val){
     if(!list) return false;
 
     ListNode *node;
     node = malloc(sizeof(ListNode));
 
     node->val = val;
-    Llist *listPtr = *list;
+    List *listPtr = *list;
     node->next = listPtr->head;
     listPtr->head = node;
+
+    (*list)->size++;
 
     return true;
 }
 
-bool pop(Llist *list, int *out){
+bool listPop(List *list, int *out){
     if(list == NULL){
-        //todo: improve error messages
         fprintf(stderr, "List is NULL\n");
         return false;
     }
 
     if(list->head == NULL){
-        //todo: improve error messages
         fprintf(stderr, "Cannot pop from empty list\n");
         return false;
     }
@@ -78,6 +69,8 @@ bool pop(Llist *list, int *out){
     free(list->head);
 
     list->head = tmp;
+
+    list->size--;
 
     return true;
 }
@@ -91,7 +84,7 @@ void freeNodes(ListNode *head){
     free(head);
 }
 
-void freeList(Llist *list){
+void freeList(List *list){
     freeNodes(list->head);
     free(list);
 }

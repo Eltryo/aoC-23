@@ -2,21 +2,8 @@
 #include <stdlib.h>
 #include <string.h>
 
-#include "../include/llist.h"
+#include "../include/list.h"
 #include "../include/map.h"
-
-int size = 0;
-
-struct Map{
-    MapNode *head;
-};
-
-struct MapNode{
-    int key;
-    unsigned nbuckets;
-    Llist *list;
-    MapNode *next;
-};
 
 Map *mapInit(){
     Map *map = malloc(sizeof(Map));
@@ -29,14 +16,13 @@ Map *mapInit(){
     return map;
 }
 
-//todo: complete and test method
-void add(Map *map, int key, int value){
+void mapAdd(Map *map, int key, int value){
     if(!map) return;
 
     MapNode *curr = map->head;
-    for (int i = 0; i < size; i++) {
+    for (int i = 0; i < map->size; i++) {
         if (curr->key == key) {
-            if(!push(&(curr->list), value)){
+            if(!listPush(&(curr->list), value)){
                 fprintf(stderr, "push was not successful\n");
                 exit(EXIT_FAILURE);
             }
@@ -47,20 +33,19 @@ void add(Map *map, int key, int value){
         curr = curr->next;
     }
 
-    MapNode *node = malloc(sizeof(MapNode));
+    MapNode *node = calloc(1, sizeof(MapNode));
     node->key = key;
 
-    Llist *list = initLlist();
-    push(&list, value);
+    List *list = listInit();
+    listPush(&list, value);
     node->list = list;
 
     node->next = map->head;
     map->head = node;
-    size++;
+    map->size++;
 }
 
-//todo: test method
-Llist *get(Map *map, int key){
+List *mapGet(Map *map, int key){
     if(!(map)) {
         fprintf(stderr, "map must not be NULL\n");
         return NULL;
@@ -72,7 +57,7 @@ Llist *get(Map *map, int key){
     }
 
     MapNode *curr = map->head;
-    for(int i = 0; i < size; i++){
+    for(int i = 0; i < map->size; i++){
         if (curr->key == key) {
             return curr->list;
         }

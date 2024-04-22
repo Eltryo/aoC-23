@@ -11,3 +11,12 @@ int partOne(FILE *fptr) {
 
   return result;
 }
+
+int partTwo(FILE *fptr) {
+    int result = 0;
+    char line[LINE_SIZE];
+
+    while (fgets(line, LINE_SIZE, fptr)) {}
+
+    return result;
+}
